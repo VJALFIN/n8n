@@ -1,0 +1,291 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Medical Records ",
+        "formDescription": "..",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Mobile Number",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Gender",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Male"
+                  },
+                  {
+                    "option": "Female"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Age",
+              "fieldType": "number",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Problem",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -180,
+        -220
+      ],
+      "id": "10d8e859-57dd-442c-a4b6-dbd4c8e0f0ff",
+      "name": "On form submission",
+      "webhookId": "95f6d99c-ad7a-415b-bad0-810f308bf5eb"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CEKrxXDVenUakNxlKe8fPB6SyOSvC0rXgVDpSieKBVg",
+          "mode": "list",
+          "cachedResultName": "Medical Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CEKrxXDVenUakNxlKe8fPB6SyOSvC0rXgVDpSieKBVg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CEKrxXDVenUakNxlKe8fPB6SyOSvC0rXgVDpSieKBVg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Mobile Number",
+              "displayName": "Mobile Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Gender",
+              "displayName": "Gender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Age",
+              "displayName": "Age",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Problem",
+              "displayName": "Problem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "submittedAt",
+              "displayName": "submittedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "formMode",
+              "displayName": "formMode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        120,
+        -220
+      ],
+      "id": "4d734027-0d6e-4181-ad7b-1c9325f55e58",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "1QrsJblLGo8ld8R4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        240,
+        20
+      ],
+      "id": "014c9946-4d0e-4a1b-9441-0867fb16c2ba",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2pZ3qeaWeTndCAhL",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "vjalfin329@gmail.com",
+        "subject": "patient details and suggested treatment",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        740,
+        -220
+      ],
+      "id": "f70b411f-da61-4679-9f2d-44f806547a49",
+      "name": "Send a message",
+      "webhookId": "8df7fce0-60ca-4763-8b8c-b494fea77d61",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HWbtMvTeJRDEKj8O",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=\"Using the following patient input details, generate a clear and respectful message to send to their doctor:\n\nPatient Name: {{ $('On form submission').item.json.Name }}\n\nAge: {{ $('On form submission').item.json.Age }}\n\nSymptoms: {{ $('On form submission').item.json.Problem }}\n\nyour job is to:\n\n- Analyse the details above and understand the problem\n- You have to provide treatment suggestions for the problem{{ $json.Problem }}\n- send structured mail\n\noutput format:\n\n- patient name -{{ $json.Name }}\n- age-{{ $json.Age }}\n- problem-{{ $json.Problem }}\n\n- suggested treatment\n\n- and avoid symbols like [*#/] \n\n- avoid \"Okay, here's the information extracted and the email, presented in a structured format, along with treatment suggestions. Please remember I am an AI and cannot provide medical advice. This information is for example purposes only. A doctor should be consulted for actual diagnosis and treatment.\\n\\n**Analysis:**\\n\\n\"\nthis message in email",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        340,
+        -220
+      ],
+      "id": "1572a435-e6cf-4d28-bb2e-c2f9b0a8c260",
+      "name": "AI Agent"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "598adfb5-412c-45b2-a347-1a9d8e2fa235",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dd2edf72342a179665f4dc26ad23d07791720d2d78b4f96a8aea1703c7c5e0f1"
+  },
+  "id": "XYPxDMCVEadt5jOR",
+  "tags": []
+}
